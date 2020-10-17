@@ -25,7 +25,7 @@ gem 'devise'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'iex-ruby-client'
 gem 'font-awesome-rails'
-
+gem 'hirb', '~> 0.7.3'
 
 
 # Use Active Storage variant

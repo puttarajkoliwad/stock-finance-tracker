@@ -4,8 +4,20 @@
 
 <% if @stock %>
   <div class="card card-header results-block">
-    <strong>Symbol: </strong> <%= @stock.ticker %>
+    <strong>Symbol: </strong> <%= @stock.ticker.upcase %>
     <strong>Name: </strong> <%= @stock.name %>
     <strong>Price: </strong> <%= @stock.last_price %>
+    <% if current_user.can_track_stock?(@stock.ticker) %>
+      <%= link_to 'Add to Track-List', user_stocks_path(user: current_user, ticker: @stock.ticker.upcase ), method: :post, class:"btn btn-sm btn-success" %>
+    <% else %>
+      <span class="badge badge-secondary">
+        You are already tracking 
+        <% if current_user.stock_already_tracked?(@stock.ticker) %>
+          this stock!
+        <% else %>
+          10 stocks! Remove some to track this.
+        <% end %>
+      </span>
+    <% end %>
   </div>
 <% end %>
