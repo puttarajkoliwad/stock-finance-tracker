@@ -30,4 +30,35 @@ class User < ApplicationRecord
     "Anonymous"
   end
 
+  def self.search(param)
+    param.strip!
+    search_result = (match_first_name(param) + match_last_name(param) + match_email(param)).uniq
+    return nil unless search_result
+    search_result
+  end
+
+  def self.match_first_name(param)
+    matches("first_name", param)
+  end
+
+  def self.match_last_name(param)
+    matches("last_name", param)
+  end
+
+  def self.match_email(param)
+    matches("email", param)
+  end
+  
+  def self.matches(field, param)
+    where("#{field} like ?", "%#{param}%")
+  end
+
+  def exclude_self(users)
+    users.reject { |user| user.id == self.id }
+  end
+
+  def is_a_friend?(user_id)
+    friends.where(id: user_id).exists?
+  end
+
 end
